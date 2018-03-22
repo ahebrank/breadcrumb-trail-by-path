@@ -91,11 +91,10 @@ class Generator {
 
 			// just give it a name from the URL
 			if (is_null($item)) {
-				$parent_path = dirname($path);
-				$parent_name = basename($parent_path);
-				$url = home_url($parent_path);
+				$name = basename($path);
+				$url = home_url($path);
 				$item = [
-					'title' => ucwords(str_replace(['_', '-'], [' ', ' '], $parent_name)),
+					'title' => ucwords(str_replace(['_', '-'], [' ', ' '], $name)),
 					'url' => $url,
 				];
 			}
