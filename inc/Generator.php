@@ -96,7 +96,7 @@ class Generator {
 				$url = home_url($parent_path);
 				$item = [
 					'title' => ucwords(str_replace(['_', '-'], [' ', ' '], $parent_name)),
-					'url' => $parent_url,
+					'url' => $url,
 				];
 			}
 
