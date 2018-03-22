@@ -41,6 +41,7 @@ class Generator {
 					$item = [
 						'title' => $post->post_title,
 						'url' => $url,
+						'type' => 'post-from-url-to-postid',
 					];
 				}
 			}
@@ -53,6 +54,7 @@ class Generator {
 					$item = [
 						'title' => $page->post_title,
 						'url' => $url,
+						'type' => 'page-from-slug',
 					];
 				}
 			}
@@ -64,11 +66,12 @@ class Generator {
 				$parent_name = basename($parent_path);
 
 				$page = get_page_by_path($parent_name . '/' . $name);
-				$url = home_url($parent_path);
+				$url = home_url($path);
 				if (is_object($page)) {
 					$item = [
 						'title' => $page->post_title,
 						'url' => $url,
+						'type' => 'page-from-parent-and-slug',
 					];
 				}
 			}
@@ -85,6 +88,7 @@ class Generator {
 					$item = [
 						'title' => $posts[0]->post_title,
 						'url' => $url,
+						'type' => 'post-from-slug',
 					];
 				}
 			}
@@ -96,6 +100,7 @@ class Generator {
 				$item = [
 					'title' => ucwords(str_replace(['_', '-'], [' ', ' '], $name)),
 					'url' => $url,
+					'type' => 'name-only',
 				];
 			}
 
@@ -111,6 +116,7 @@ class Generator {
 		$items[] = [
 			'title' => 'Home',
 			'url' => home_url('/'),
+			'type' => '',
 		];
 
 		return array_reverse($items);
@@ -127,7 +133,7 @@ class Generator {
 		$n = count($items);
 		foreach ($items as $i => $item) {
 			if ($item['url']) {
-				$trail[] = '<a href="' . $item['url'] . '">' . $item['title'] . '</a>';
+				$trail[] = '<a data-breadcrumb-type="' . $item['type'] . '" href="' . $item['url'] . '">' . $item['title'] . '</a>';
 			}
 			else {
 				$trail[] = '<span>' . $item['title'] . '</span>';
