@@ -28,16 +28,21 @@ class Generator {
 		$items = [];
 
 		while ($path != '') {
-			$url = home_url($path);
-			$id = url_to_postid($url);
+
 			$item = null;
 
-			if ($id > 0) {
-				$post = get_post($id);
-				$item = [
-					'title' => $post->post_title,
-					'url' => $url,
-				];
+			// try a post
+			if (is_null($item)) {
+				$url = home_url($path);
+				$id = url_to_postid($url);
+
+				if ($id > 0) {
+					$post = get_post($id);
+					$item = [
+						'title' => $post->post_title,
+						'url' => $url,
+					];
+				}
 			}
 
 			// try a page
@@ -81,6 +86,17 @@ class Generator {
 						'url' => $url,
 					];
 				}
+			}
+
+			// just give it a name from the URL
+			if (is_null($item)) {
+				$parent_url = dirname($url);
+				$parent_name = basename($parent_url);
+
+				$item = [
+					'title' => ucwords(str_replace(['_', '-'], [' ', ' '], $parent_name)),
+					'url' => $parent_url,
+				];
 			}
 
 			// finally
