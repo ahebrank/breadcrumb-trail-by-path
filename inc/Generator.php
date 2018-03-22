@@ -59,11 +59,12 @@ class Generator {
 
 			// try a page with parent
 			if (is_null($item)) {
-				$name = basename($url);
-				$parent_url = dirname($url);
-				$parent_name = basename($parent_url);
+				$name = basename($path);
+				$parent_path = dirname($path);
+				$parent_name = basename($parent_path);
 
 				$page = get_page_by_path($parent_name . '/' . $name);
+				$url = home_url($parent_path);
 				if (is_object($page)) {
 					$item = [
 						'title' => $page->post_title,
@@ -90,9 +91,9 @@ class Generator {
 
 			// just give it a name from the URL
 			if (is_null($item)) {
-				$parent_url = dirname($url);
-				$parent_name = basename($parent_url);
-
+				$parent_path = dirname($path);
+				$parent_name = basename($parent_path);
+				$url = home_url($parent_path);
 				$item = [
 					'title' => ucwords(str_replace(['_', '-'], [' ', ' '], $parent_name)),
 					'url' => $parent_url,
